@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mifi.flow.back.dao.MifiDeviceFlowMapper">
+	<resultMap type="com.mifi.flow.back.entity.MifiDeviceFlow" id="mifiDeviceFlow">
+		<id property="id" column="id" javaType="Long"/>
+		<result property="flow" column="device_flow" javaType="Long"/>
+		<result property="apMac" column="device_mac" javaType="String"/>
+		<result property="createTime" column="create_time" javaType="java.util.Date"/>
+		<result property="modifyTime" column="modify_time" javaType="java.util.Date"/>
+	</resultMap>
+	
+	<select id="selectAll" resultMap="mifiDeviceFlow">
+		SELECT * FROM mifi_device_flow ORDER BY modify_time DESC
+	</select>
+	
+	<select id="selectByBlackCount" parameterType="String" resultType="Integer">
+		SELECT COUNT(1) FROM mifi_black_list WHERE `status`= ${@com.mifi.common.Dictionary@STATUS_NORMAL} 
+		AND (black_ip=#{_black} or black_mac=#{_black} or black_phone=#{_black}) 
+	</select>
+</mapper>
